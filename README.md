@@ -18,5 +18,5 @@
 2. Use the following command to run a script, replacing `SCRIPTNAME` with the actual script name:
 
 ```powershell
-irm ambr0sial.github.io/scripts/SCRIPTNAME.ps1 | iex
+irm ambrosial.fun/scripts/SCRIPTNAME.ps1 | iex
 ```
