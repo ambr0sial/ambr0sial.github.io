@@ -1,34 +1,49 @@
-<title>ASH</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<meta content="ASH - Ambrosial's Scripts Hub" property="og:title" />
-<meta content="ASH is a random collection of Powershell scripts I make!" property="og:description" />
-<meta content="https://ambr0sial.github.io" property="og:url" />
-<meta content="https://ambr0sial.github.io/logo.png" property="og:image" />
-<meta content="#6E5477" data-react-helmet="true" name="theme-color" />
-<p id="ash"></p>
-<script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
-<script>
-    var sf = new Snowflakes({
-        color: "#d054fa",
-        count: 40
-    });
-</script>
-<h1>ash - ambrosial's scripts hub</h1>
-<p>i will mostly upload random scripts i make during my free time, when i'm bored. no category or anything, just bulk</p>
-<h2>current scripts:</h2>
-<ul>
-    <li>
-        <code>/spotify_updates_controller.ps1</code>
-        <br>
-        <code>/spotify_uninstaller.ps1</code>
-        <br>
-        <code>/sysinfo.ps1</code>
-    </li>
-</ul>
-<h2>how to run them yiipeee</h2>
-<p>use the following in powershell, replacing SCRIPTNAME by the actual name (for example: spotify_updates_controller):</p>
-<ul>
-    <li>
-        <code>irm ambr0sial.github.io/scripts/SCRIPTNAME.ps1 | iex</code>
-    </li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASH - Ambrosial's Scripts Hub</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="ASH is a collection of Powershell scripts by Ambrosial.">
+    <meta property="og:title" content="ASH - Ambrosial's Scripts Hub">
+    <meta property="og:description" content="ASH is a random collection of Powershell scripts I make!">
+    <meta property="og:url" content="https://ambr0sial.github.io">
+    <meta property="og:image" content="https://ambr0sial.github.io/logo.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>ASH - Ambrosial's Scripts Hub</h1>
+        <p>Welcome to my bulk collection of Powershell scripts!</p>
+    </header>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search scripts..">
+        <ul id="search-results"></ul>
+        <script src="search.js"></script>
+    </div>
+
+
+    <main>
+        <section id="scripts">
+            <h2>Current scripts:</h2>
+            <ul>
+                <li><a href="scripts/spotify_updates_controller.ps1">/spotify_updates_controller.ps1</a></li>
+                <li><a href="scripts/spotify_uninstaller.ps1">/spotify_uninstaller.ps1</a></li>
+                <li><a href="scripts/sysinfo.ps1">/sysinfo.ps1</a></li>
+            </ul>
+        </section>
+        <section id="instructions">
+            <h2>How to run them:</h2>
+            <p>Use the following PowerShell command, replacing SCRIPTNAME with the actual script name:</p>
+            <code>irm ambr0sial.github.io/scripts/SCRIPTNAME.ps1 | iex</code>
+        </section>
+    </main>
+    <footer>
+        <p>Scripts and website made with ❤ by Ambrosial.</p>
+    </footer>
+    <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
