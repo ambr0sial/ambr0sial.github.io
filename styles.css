@@ -76,3 +76,12 @@ code {
 #search-results li a {
     color: black;
 }
+
+.heart {
+    color: black;
+    transition: color 0.4s;
+}
+
+.heart:hover {
+    color: red;
+}
