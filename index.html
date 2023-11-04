@@ -1,1 +1,74 @@
-<p>cool website</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psst!</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #psst-button {
+            position: relative;
+            z-index: 2;
+            background-color: #ffffff;
+            color: #000;
+            font-size: 4em;
+            border: none;
+            border-radius: 20px;
+            padding: 20px 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #psst-button:hover {
+            background-color: #ccc;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <button id="psst-button" onclick="window.location.href = 'https://ash.ambrosial.fun'">psst!</button>
+
+    <script>
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 100,
+                },
+                color: {
+                    value: "#ffffff",
+                },
+                shape: {
+                    type: "circle",
+                },
+                opacity: {
+                    value: 0.6,
+                },
+                size: {
+                    value: 3,
+                },
+                line_linked: {
+                    enable: false,
+                },
+            },
+        });
+    </script>
+</body>
+</html>
