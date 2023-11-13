@@ -4,6 +4,7 @@ body {
     background: #111;
     color: #fff;
     font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 header {
@@ -59,4 +60,67 @@ h2 {
 .psst-button:hover {
     background: #d85044;
     transform: scale(1.1);
+}
+
+#cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@keyframes drawLine {
+    0% {
+        width: 0;
+        border-radius: 5px;
+    }
+    100% {
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+.underline {
+    position: relative;
+}
+
+.underline::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    border: 1px solid pink;
+    background-color: pink;
+    border-radius: 5px;
+    animation: drawLine 2s forwards;
+}
+
+div span:first-child {
+    display: inline-block;
+    position: relative;
+}
+
+div span:first-child::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background-color: pink;
+    transition: width 0.5s ease-in-out;
+}
+
+div span:first-child:hover::after {
+    width: 100%;
+}
+
+button.psst-button {
+    display: block;
+    margin: 0 auto;
 }
