@@ -87,6 +87,10 @@ particlesJS('particles', {
     retina_detect: true
 });
 
+function redirectToAsh() {
+    window.location.href = 'https://ash.ambrosial.fun';
+}
+
 const text = 'ambrosial';
 let index = 0;
 
