@@ -1,0 +1,126 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+header {
+    text-align: center;
+    padding: 50px 0;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+p {
+    font-size: 1.2em;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+.about-me, .portfolio, .contact {
+    margin-bottom: 40px;
+}
+
+/* Add more styles for your content sections and links as desired */
+
+/* Particle Animation Container */
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.psst-button {
+    background: #ff6f61;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.psst-button:hover {
+    background: #d85044;
+    transform: scale(1.1);
+}
+
+#cursor {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+@keyframes drawLine {
+    0% {
+        width: 0;
+        border-radius: 5px;
+    }
+    100% {
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+.underline {
+    position: relative;
+}
+
+.underline::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    border: 1px solid pink;
+    background-color: pink;
+    border-radius: 5px;
+    animation: drawLine 2s forwards;
+}
+
+div span:first-child {
+    display: inline-block;
+    position: relative;
+}
+
+div span:first-child::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background-color: pink;
+    transition: width 0.5s ease-in-out;
+}
+
+div span:first-child:hover::after {
+    width: 100%;
+}
+
+button.psst-button {
+    display: block;
+    margin: 0 auto;
+}

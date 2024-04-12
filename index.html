@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ambrosial's space</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <style>
+        body {
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: url('assets/bg.gif');
+            background-repeat: repeat;
+            cursor: url('assets/cursor.png'), auto;
+        }
+
+        .title-bar {
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .title-bar-text {
+            color: white;
+        }
+
+        .window-body {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .window-body img {
+            max-height: 340px;
+            margin-bottom: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .user-info {
+            color: black;
+            margin-bottom: 8px;
+        }
+
+        .separator-line {
+            border-top: 1px solid white;
+            margin-bottom: 16px;
+        }
+
+        .contact-tab {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .contact-info {
+            color: black;
+            margin-right: 8px;
+        }
+
+        .center-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .center-button button {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .bottom-gif {
+            width: 100px;
+            height: auto;
+        }
+
+        img[src="assets/construction.gif"] {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .windows-container {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+        }
+        
+        .windows-container .window {
+            margin: 0 10px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var button = document.querySelector('.center-button button');
+
+            button.addEventListener('mouseover', function () {
+                button.style.cursor = 'url("assets/hovering_cursor.png"), auto';
+            });
+
+            button.addEventListener('mouseout', function () {
+                button.style.cursor = 'auto';
+            });
+        });
+    </script>
+    <audio src="assets/music.mp3" autoplay loop></audio>
+
+    <script type="module">
+        import { rainbowCursor } from "https://unpkg.com/cursor-effects@latest/dist/esm.js";
+
+        new rainbowCursor({colors: ["cyan", "cyan", "pink", "pink", "white", "white", "pink", "pink", "cyan", "cyan"]});
+    </script>
+
+</head>
+<body>
+    <div class="windows-container">
+        <div class="window" style="width: 400px;">
+            <div class="title-bar">
+                <div class="title-bar-text">my interests</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                i love coding random stuff (if i have ideas). my coding interests are pretty controversial, such as malware development or more lately streaming websites. my favorite game license is kirby (best one is kirby's return to dreamland on wii, change my mind), and my favorite games (subject to change) are geometry dash, content warning, vrchat, detroit become human and rhythia.
+            </div>
+        </div>
+        <div class="window" style="width: 400px;">
+            <div class="title-bar">
+                <div class="title-bar-text">ambrosial</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <img src="assets/construction.gif" alt="Under Construction">
+                <img src="assets/ambrosial.png" alt="yippee" title="created by jade!">
+                <div class="user-info">🌈 she/her | transfem | geometry dash player 🌈</div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <img src="assets/anarchynow.gif" alt="yes" class="bottom-gif" style="margin-right: 10px;">
+                    <img src="assets/ambrosial_button.png" alt="yes" class="bottom-gif">
+                    <img src="assets/web3.gif" alt="yes" class="bottom-gif">
+                </div>
+                <div class="separator-line"></div>
+                <p>hello! my name is ambrose, and on the internet, i'm mainly known as ambrosial or waw. i basically make everything that comes through my mind, also, i am really into coding and gaming. i love bringing ideas to life through code and exploring what technology can do! :3 even though i'm usually anxious, i've been trying to make more connections lately, so feel free to reach out (check my contact information below)!!</p>
+                <div class="contact-tab">
+                    <div class="contact-info">discord: waw.legacy</div>
+                    <div class="contact-info">mail: ambrosial@cumallover.me</div>
+                </div>
+            </div>
+            <div class="center-button">
+                <button onclick="window.location.href='https://ash.ambrosial.fun'">that's a secret!</button>
+                <button onclick="window.location.href='assets/old/index.html'">old website</button>
+            </div>
+        </div>
+        <div class="window" style="width: 400px;">
+            <div class="title-bar">
+                <div class="title-bar-text">my projects</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="window-body">
+                here are some of my projects!<br><br>
+                - <a href="https://github.com/ambr0sial/femboyaccess/" target="_blank">femboyaccess</a> > remote administration tool that uses discord as a c2 server<br>
+                - <a href="https://github.com/ambr0sial/nova/" target="_blank">nova</a> > free streaming website
+            </div>
+        </div>
+    </div>
+</body>
+</html>
