@@ -96,19 +96,6 @@
 			margin: 0 10px;
 		}
 	</style>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			var button = document.querySelector('.center-button button');
-
-			button.addEventListener('mouseover', function () {
-				button.style.cursor = 'url("assets/hovering_cursor.png"), auto';
-			});
-
-			button.addEventListener('mouseout', function () {
-				button.style.cursor = 'auto';
-			});
-		});
-	</script>
 	<audio src="assets/music.mp3" autoplay loop></audio>
 
 	<script type="module">
@@ -155,8 +142,8 @@
 				</div>
 			</div>
 			<div class="center-button">
-  				<button onclick="window.location.href='https://ash.ambrosial.fun'" style="margin-right: 8px;">that's a secret!</button>
-  				<button onclick="window.location.href='assets/old/index.html'">old website</button>
+  				<button onclick="window.location.href='https://ash.ambrosial.fun'" onmouseover="this.style.cursor='url(assets/hovering_cursor.png), auto'" onmouseout="this.style.cursor='auto'" style="margin-right: 8px;">that's a secret!</button>
+  				<button onclick="window.location.href='assets/old/index.html'" onmouseover="this.style.cursor='url(assets/hovering_cursor.png), auto'" onmouseout="this.style.cursor='auto'">old website</button>
 			</div>
 			<div style="height: 20px;"></div>
 			<center>
