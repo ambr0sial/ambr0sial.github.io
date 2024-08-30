@@ -11,12 +11,16 @@
 	<meta content="#EB8DF0" data-react-helmet="true" name="theme-color"/>
 	<link rel="stylesheet" href="https://unpkg.com/98.css">
 	<style>
+		html, body {
+			margin: 0;
+			height: 100%;
+		}
+
 		body {
 			background-color: #1e1e1e;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			height: 100vh;
 			margin: 0;
 			background: url('assets/bg.gif');
 			background-repeat: repeat;
@@ -100,6 +104,59 @@
 		.windows-container .window {
 			margin: 0 10px;
 		}
+
+		/* Style for screens below 1280px */
+		@media screen and (max-width: 1280px) {
+			.windows-container {
+				display: flex;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+			}
+			#projects {
+				position: absolute;
+				margin-top: 165px;
+			}
+		}
+
+		/* Style for screens below 860px */
+		@media screen and (max-width: 860px) {
+			html, body {
+				height:100%;
+				margin:0;
+				padding:0;
+				align-items: center;
+				flex-direction: column;
+				justify-content: flex-start;
+			}
+			
+			.windows-container {
+				position: absolute;
+				height: max-content;
+				/*transform: scale(0.8);*/
+				flex-direction: column;
+				align-items: end;
+			}
+
+			.windows-container .window {
+				margin-bottom: 20px; /* Add margin between windows */
+			}
+
+			#projects {
+				position: relative !important;
+				margin-top: 0px;
+			}
+		}
+
+		@media screen and (max-height: 700px) {
+			html, body {
+				height:100%;
+				margin:0;
+				padding:0;
+				align-items: center;
+				flex-direction: column;
+				justify-content: flex-start;
+			}
+		}
 	</style>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
@@ -125,7 +182,8 @@
 </head>
 <body>
 	<div class="windows-container">
-		<div class="window" style="width: 400px;">
+
+		<div class="window" id="interests" style="width: 400px;">
 			<div class="title-bar">
 				<div class="title-bar-text">my interests</div>
 				<div class="title-bar-controls">
@@ -136,7 +194,8 @@
 				i love coding random stuff (if i have ideas). my coding interests are pretty controversial, such as malware development or more lately streaming websites. my favorite game license is kirby (best one is kirby's return to dreamland on wii, change my mind), and my favorite games (subject to change) are geometry dash, content warning, vrchat, detroit become human and rhythia.
 			</div>
 		</div>
-		<div class="window" style="width: 400px;">
+
+		<div class="window" id="ambrosial" style="width: 400px;">
 			<div class="title-bar">
 				<div class="title-bar-text">ambrosial</div>
 				<div class="title-bar-controls">
@@ -164,7 +223,8 @@
   				<button onclick="window.location.href='https://old.ambrosial.fun'" onmouseover="this.style.cursor='url(assets/hovering_cursor.png), auto'" onmouseout="this.style.cursor='auto'">old website</button>
 			</div>
 		</div>
-		<div class="window" style="width: 400px;">
+		
+		<div class="window" id="projects" style="width: 400px;">
 			<div class="title-bar">
 				<div class="title-bar-text">my projects</div>
 				<div class="title-bar-controls">
@@ -178,8 +238,8 @@
 			</div>
 		</div>
 	</div>
-<div style="color: gray; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); margin-bottom: 20px;">
-	created with ❤ by ambrosial | profile picture by jadoukity24
-</div>
+	<div id="footer" style="color: gray; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); margin-bottom: 20px;">
+		created with ❤ by ambrosial | profile picture by jadoukity24
+	</div>
 </body>
 </html>
