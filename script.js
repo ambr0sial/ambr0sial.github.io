@@ -1,308 +1,330 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const cursor = document.createElement('div');
-  cursor.classList.add('custom-cursor');
-  
-  const cursorFollower = document.createElement('div');
-  cursorFollower.classList.add('custom-cursor-follower');
-  
-  document.body.appendChild(cursor);
-  document.body.appendChild(cursorFollower);
-  let mouseX = 0;
-  let mouseY = 0;
-  let cursorX = 0;
-  let cursorY = 0;
-  let followerX = 0;
-  let followerY = 0;
-  
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-  const interactiveElements = document.querySelectorAll('button, a, .hover-glow, .clickable');
-  interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      document.body.classList.add('hover');
+    const cursor = document.createElement('div');
+    cursor.classList.add('custom-cursor');
+
+    const cursorFollower = document.createElement('div');
+    cursorFollower.classList.add('custom-cursor-follower');
+
+    document.body.appendChild(cursor);
+    document.body.appendChild(cursorFollower);
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    let followerX = 0;
+    let followerY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     });
-    el.addEventListener('mouseleave', () => {
-      document.body.classList.remove('hover');
-    });
-  });
-  const animateCursor = () => {
-    cursorX += (mouseX - cursorX) * 0.2;
-    cursorY += (mouseY - cursorY) * 0.2;
-    cursor.style.left = `${cursorX}px`;
-    cursor.style.top = `${cursorY}px`;
-    followerX += (mouseX - followerX) * 0.1;
-    followerY += (mouseY - followerY) * 0.1;
-    cursorFollower.style.left = `${followerX}px`;
-    cursorFollower.style.top = `${followerY}px`;
-    
-    requestAnimationFrame(animateCursor);
-  };
-  
-  animateCursor();
-  particlesJS('particles-js', {
-    particles: {
-      number: {
-        value: 100,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      },
-      color: {
-        value: ["#9333ea", "#a855f7", "#ffffff", "#c084fc"]
-      },
-      shape: {
-        type: ["circle", "triangle", "star"],
-        stroke: {
-          width: 0,
-          color: "#000000"
-        },
-        polygon: {
-          nb_sides: 5
-        }
-      },
-      opacity: {
-        value: 0.3,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 0.2,
-          opacity_min: 0.1,
-          sync: false
-        }
-      },
-      size: {
-        value: 3,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 2,
-          size_min: 0.1,
-          sync: false
-        }
-      },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: "#9333ea",
-        opacity: 0.2,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 1.5,
-        direction: "none",
-        random: true,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-        attract: {
-          enable: true,
-          rotateX: 600,
-          rotateY: 1200
-        }
-      }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: {
-          enable: true,
-          mode: "bubble"
-        },
-        onclick: {
-          enable: true,
-          mode: "push"
-        },
-        resize: true
-      },
-      modes: {
-        grab: {
-          distance: 140,
-          line_linked: {
-            opacity: 0.6
-          }
-        },
-        bubble: {
-          distance: 200,
-          size: 5,
-          duration: 2,
-          opacity: 0.8,
-          speed: 3
-        },
-        repulse: {
-          distance: 200,
-          duration: 0.4
-        },
-        push: {
-          particles_nb: 4
-        },
-        remove: {
-          particles_nb: 2
-        }
-      }
-    },
-    retina_detect: true
-  });
-  const enterButton = document.getElementById('enter-button');
-  const entryScreen = document.getElementById('entry-screen');
-  const mainContent = document.getElementById('main-content');
-  const backgroundMusic = document.getElementById('background-music');
-  const toggleMusicBtn = document.getElementById('toggle-music');
-  const musicStatus = document.getElementById('music-status');
-  const musicIcon = document.getElementById('music-icon');
-  const pauseIcon = document.getElementById('pause-icon');
-  const musicVisualizer = document.getElementById('music-visualizer');
-    const lyricElement = document.getElementById('current-lyric');
-  if (!enterButton || !entryScreen || !mainContent) {
-        console.error('critical elements not found');
-    if (mainContent) {
-      mainContent.classList.remove('hidden');
-    }
-    return;
-  }
-  enterButton.addEventListener('click', () => {
-        entryScreen.style.opacity = '0';
-    setTimeout(() => {
-      entryScreen.style.display = 'none';
-      mainContent.classList.remove('hidden');
-            mainContent.style.display = 'flex';
-      mainContent.classList.add('fade-in');
-      if (backgroundMusic) {
-                backgroundMusic.volume = 0.25;
-        backgroundMusic.play().catch(err => {
-          console.warn('Music could not be played automatically:', err);
+    const interactiveElements = document.querySelectorAll('button, a, .hover-glow, .clickable');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            document.body.classList.add('hover');
         });
+        el.addEventListener('mouseleave', () => {
+            document.body.classList.remove('hover');
+        });
+    });
+    const animateCursor = () => {
+        if (document.visibilityState === 'hidden') {
+            requestAnimationFrame(animateCursor);
+            return;
+        }
+
+        const dx = mouseX - cursorX;
+        const dy = mouseY - cursorY;
+        const fdx = mouseX - followerX;
+        const fdy = mouseY - followerY;
+
+        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+            cursorX += dx * 0.2;
+            cursorY += dy * 0.2;
+            cursor.style.left = `${cursorX}px`;
+            cursor.style.top = `${cursorY}px`;
+        }
+
+        if (Math.abs(fdx) > 0.1 || Math.abs(fdy) > 0.1) {
+            followerX += fdx * 0.1;
+            followerY += fdy * 0.1;
+            cursorFollower.style.left = `${followerX}px`;
+            cursorFollower.style.top = `${followerY}px`;
+        }
+
+        requestAnimationFrame(animateCursor);
+    };
+
+    animateCursor();
+    particlesJS('particles-js', {
+        particles: {
+            number: {
+                value: 50,
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: ["#9333ea", "#a855f7", "#ffffff", "#c084fc"]
+            },
+            shape: {
+                type: ["circle"],
+                stroke: {
+                    width: 0,
+                    color: "#000000"
+                },
+                polygon: {
+                    nb_sides: 5
+                }
+            },
+            opacity: {
+                value: 0.3,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 0.1,
+                    opacity_min: 0.1,
+                    sync: false
+                }
+            },
+            size: {
+                value: 3,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 1,
+                    size_min: 0.1,
+                    sync: false
+                }
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#9333ea",
+                opacity: 0.2,
+                width: 1
+            },
+            move: {
+                enable: true,
+                speed: 1,
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: {
+                    enable: false,
+                    rotateX: 600,
+                    rotateY: 1200
+                }
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "bubble"
+                },
+                onclick: {
+                    enable: false,
+                    mode: "push"
+                },
+                resize: true
+            },
+            modes: {
+                grab: {
+                    distance: 140,
+                    line_linked: {
+                        opacity: 0.6
+                    }
+                },
+                bubble: {
+                    distance: 200,
+                    size: 5,
+                    duration: 2,
+                    opacity: 0.8,
+                    speed: 3
+                },
+                repulse: {
+                    distance: 200,
+                    duration: 0.4
+                },
+                push: {
+                    particles_nb: 4
+                },
+                remove: {
+                    particles_nb: 2
+                }
+            }
+        },
+        retina_detect: false
+    });
+    const enterButton = document.getElementById('enter-button');
+    const entryScreen = document.getElementById('entry-screen');
+    const mainContent = document.getElementById('main-content');
+    const backgroundMusic = document.getElementById('background-music');
+    const toggleMusicBtn = document.getElementById('toggle-music');
+    const musicStatus = document.getElementById('music-status');
+    const musicIcon = document.getElementById('music-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const musicVisualizer = document.getElementById('music-visualizer');
+    const lyricElement = document.getElementById('current-lyric');
+    if (!enterButton || !entryScreen || !mainContent) {
+        console.error('critical elements not found');
+        if (mainContent) {
+            mainContent.classList.remove('hidden');
+        }
+        return;
+    }
+    enterButton.addEventListener('click', () => {
+        entryScreen.style.opacity = '0';
+        setTimeout(() => {
+            entryScreen.style.display = 'none';
+            mainContent.classList.remove('hidden');
+            mainContent.style.display = 'flex';
+            mainContent.classList.add('fade-in');
+            if (backgroundMusic) {
+                backgroundMusic.volume = 0.25;
+                backgroundMusic.play().catch(err => {
+                    console.warn('Music could not be played automatically:', err);
+                });
                 if (typeof initializeLyrics === 'function') {
                     initializeLyrics();
                 }
-      }
-      
-      if (toggleMusicBtn) {
-        updateMusicUI(true);
-      }
-      const leftPanel = document.querySelector('#main-content > div > div:first-child');
-      const rightPanel = document.querySelector('#main-content > div > div:last-child');
-      
-      if (leftPanel) {
-        leftPanel.style.opacity = '0';
-        leftPanel.style.transform = 'translateY(20px)';
-        leftPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        
-        setTimeout(() => {
-          leftPanel.style.opacity = '1';
-          leftPanel.style.transform = 'translateY(0)';
-        }, 100);
-      }
-      
-      if (rightPanel) {
-        const rightPanelChildren = rightPanel.children;
-        Array.from(rightPanelChildren).forEach((panel, index) => {
-          panel.style.opacity = '0';
-          panel.style.transform = 'translateY(20px)';
-          panel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-          
-          setTimeout(() => {
-            panel.style.opacity = '1';
-            panel.style.transform = 'translateY(0)';
-          }, 200 + (index * 150));
-        });
-      }
-      setTimeout(() => {
-        if (typeof initializeParticles === 'function') initializeParticles();
-        if (typeof initializeMusic === 'function') initializeMusic();
-        if (typeof initSkillIconEffects === 'function') initSkillIconEffects();
-        if (typeof initTextAnimations === 'function') initTextAnimations();
-      }, 500);
-        }, 500);
-  });
-  toggleMusicBtn.addEventListener('click', () => {
-    if (backgroundMusic.paused) {
-      backgroundMusic.play();
-      updateMusicUI(true);
-    } else {
-      backgroundMusic.pause();
-      updateMusicUI(false);
-    }
-  });
-  
-  function updateMusicUI(isPlaying) {
-    if (isPlaying) {
-      musicStatus.textContent = 'playing';
-      pauseIcon.classList.remove('hidden');
-      musicIcon.classList.add('hidden');
-      musicVisualizer.classList.add('playing');
-    } else {
-      musicStatus.textContent = 'paused';
-      pauseIcon.classList.add('hidden');
-      musicIcon.classList.remove('hidden');
-      musicVisualizer.classList.remove('playing');
-    }
-  }
-  const createRandomMovement = () => {
-    const particles = document.querySelectorAll('#particles-js canvas');
-    if (particles.length > 0) {
-      const canvas = particles[0];
-      canvas.style.transform = 'translateY(0)';
-      canvas.style.transition = 'transform 10s ease-in-out';
-      
-      setInterval(() => {
-        const randomY = Math.random() * 10 - 5;
-        canvas.style.transform = `translateY(${randomY}px)`;
-      }, 10000);
-    }
-  };
-  setTimeout(createRandomMovement, 1000);
+            }
 
-  function addFloatingEffect() {
-    const panels = document.querySelectorAll('.bg-black\\/40');
-    
-    panels.forEach((panel, index) => {
-      const delay = index * 2;
-      const duration = 10 + Math.random() * 10;
-      
-      panel.style.animation = `floating ${duration}s ease-in-out ${delay}s infinite alternate`;
+            if (toggleMusicBtn) {
+                updateMusicUI(true);
+            }
+            const leftPanel = document.querySelector('#main-content > div > div:first-child');
+            const rightPanel = document.querySelector('#main-content > div > div:last-child');
+
+            if (leftPanel) {
+                leftPanel.style.opacity = '0';
+                leftPanel.style.transform = 'translateY(20px)';
+                leftPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                setTimeout(() => {
+                    leftPanel.style.opacity = '1';
+                    leftPanel.style.transform = 'translateY(0)';
+                }, 100);
+            }
+
+            if (rightPanel) {
+                const rightPanelChildren = rightPanel.children;
+                Array.from(rightPanelChildren).forEach((panel, index) => {
+                    panel.style.opacity = '0';
+                    panel.style.transform = 'translateY(20px)';
+                    panel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                    setTimeout(() => {
+                        panel.style.opacity = '1';
+                        panel.style.transform = 'translateY(0)';
+                    }, 200 + (index * 150));
+                });
+            }
+            setTimeout(() => {
+                if (typeof initializeParticles === 'function') initializeParticles();
+                if (typeof initializeMusic === 'function') initializeMusic();
+                if (typeof initSkillIconEffects === 'function') initSkillIconEffects();
+                if (typeof initTextAnimations === 'function') initTextAnimations();
+            }, 500);
+        }, 500);
     });
-  }
-  
-  function addSkillIconsGlow() {
-    const skillIcons = document.querySelectorAll('img[src*="skillicons.dev"]');
-    
-    skillIcons.forEach((icon, index) => {
-      icon.addEventListener('mouseenter', () => {
-        const randomColor = `rgb(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 50)}, ${Math.floor(Math.random() * 100 + 155)})`;
-        icon.style.filter = `drop-shadow(0 0 8px ${randomColor})`;
-      });
-      
-      icon.addEventListener('mouseleave', () => {
-        icon.style.filter = 'drop-shadow(0 0 2px rgba(255, 255, 255, 0.2))';
-      });
+    toggleMusicBtn.addEventListener('click', () => {
+        if (backgroundMusic.paused) {
+            backgroundMusic.play();
+            updateMusicUI(true);
+        } else {
+            backgroundMusic.pause();
+            updateMusicUI(false);
+        }
     });
-  }
-  
-  function createBackgroundShift() {
-    const body = document.body;
+
+    function updateMusicUI(isPlaying) {
+        if (isPlaying) {
+            musicStatus.textContent = 'playing';
+            pauseIcon.classList.remove('hidden');
+            musicIcon.classList.add('hidden');
+            musicVisualizer.classList.add('playing');
+        } else {
+            musicStatus.textContent = 'paused';
+            pauseIcon.classList.add('hidden');
+            musicIcon.classList.remove('hidden');
+            musicVisualizer.classList.remove('playing');
+        }
+    }
+    const createRandomMovement = () => {
+        const particles = document.querySelectorAll('#particles-js canvas');
+        if (particles.length > 0) {
+            const canvas = particles[0];
+            canvas.style.transform = 'translateY(0)';
+            canvas.style.transition = 'transform 10s ease-in-out';
+
+            setInterval(() => {
+                const randomY = Math.random() * 10 - 5;
+                canvas.style.transform = `translateY(${randomY}px)`;
+            }, 10000);
+        }
+    };
+    setTimeout(createRandomMovement, 1000);
+
+    function addFloatingEffect() {
+        const panels = document.querySelectorAll('.bg-black\\/40');
+
+        panels.forEach((panel, index) => {
+            const delay = index * 2;
+            const duration = 10 + Math.random() * 10;
+
+            panel.style.animation = `floating ${duration}s ease-in-out ${delay}s infinite alternate`;
+        });
+    }
+
+    function addSkillIconsGlow() {
+        const skillIcons = document.querySelectorAll('img[src*="skillicons.dev"]');
+
+        skillIcons.forEach((icon, index) => {
+            icon.addEventListener('mouseenter', () => {
+                const randomColor = `rgb(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 50)}, ${Math.floor(Math.random() * 100 + 155)})`;
+                icon.style.filter = `drop-shadow(0 0 8px ${randomColor})`;
+            });
+
+            icon.addEventListener('mouseleave', () => {
+                icon.style.filter = 'drop-shadow(0 0 2px rgba(255, 255, 255, 0.2))';
+            });
+        });
+    }
+
+    function createBackgroundShift() {
+        const body = document.body;
         let hue = 270;
-    
-    setInterval(() => {
-      hue = (hue + 0.5) % 360;
-      const subtle = `radial-gradient(circle at 50% 50%, rgba(${Math.sin(hue/30) * 20 + 10}, 0, ${Math.cos(hue/30) * 20 + 20}, 0.03), rgba(0, 0, 0, 0))`;
-      body.style.backgroundImage = subtle;
-    }, 100);
-  }
-  
-  createBackgroundShift();
-  initializeParticles();
-  initializeMusic();
-  initSkillIconEffects();
-  initTextAnimations();
-  
-  function initializeParticles() {
+        let isVisible = true;
+
+        document.addEventListener('visibilitychange', () => {
+            isVisible = document.visibilityState === 'visible';
+        });
+
+        setInterval(() => {
+            if (isVisible) {
+                hue = (hue + 0.5) % 360;
+                const subtle = `radial-gradient(circle at 50% 50%, rgba(${Math.sin(hue/30) * 20 + 10}, 0, ${Math.cos(hue/30) * 20 + 20}, 0.03), rgba(0, 0, 0, 0))`;
+                body.style.backgroundImage = subtle;
+            }
+        }, 500);
+    }
+
+    createBackgroundShift();
+    initializeParticles();
+    initializeMusic();
+    initSkillIconEffects();
+    initTextAnimations();
+
+    function initializeParticles() {
         if (typeof particlesJS !== 'undefined') {
-    particlesJS('particles-js', {
-      particles: {
+            particlesJS('particles-js', {
+                particles: {
                     number: {
                         value: 50,
                         density: {
@@ -313,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     color: {
                         value: ["#9333ea", "#a855f7", "#ffffff", "#c084fc"]
                     },
-        shape: {
+                    shape: {
                         type: ["circle"],
                         stroke: {
                             width: 0,
@@ -322,52 +344,52 @@ document.addEventListener('DOMContentLoaded', () => {
                         polygon: {
                             nb_sides: 5
                         }
-        },
-        opacity: {
+                    },
+                    opacity: {
                         value: 0.5,
-          random: true,
+                        random: true,
                         anim: {
                             enable: true,
                             speed: 0.5,
                             opacity_min: 0.1,
                             sync: false
                         }
-        },
-        size: {
-          value: 3,
-          random: true,
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
                         anim: {
                             enable: false,
                             speed: 30,
                             size_min: 0.1,
                             sync: false
                         }
-        },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#a855f7",
-          opacity: 0.2,
-          width: 1
-        },
-        move: {
-          enable: true,
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#a855f7",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
                         speed: 1,
-          direction: "none",
-          random: true,
-          straight: false,
-          out_mode: "out",
-          bounce: false,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
                         attract: {
                             enable: false,
                             rotateX: 600,
                             rotateY: 1200
                         }
-        }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
                         onhover: {
                             enable: true,
                             mode: "grab"
@@ -376,9 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             enable: false,
                             mode: "push"
                         },
-          resize: true
-        },
-        modes: {
+                        resize: true
+                    },
+                    modes: {
                         grab: {
                             distance: 140,
                             line_linked: {
@@ -392,45 +414,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-  function initSkillIconEffects() {
-    const skillIcons = document.querySelectorAll('.skills-grid i');
-    
-    skillIcons.forEach((icon, index) => {
-      icon.style.animationName = 'subtlePulse';
-      icon.style.animationDuration = '3s';
-      icon.style.animationIterationCount = 'infinite';
-      icon.style.animationDelay = `${index * 0.3}s`;
-      icon.addEventListener('mouseenter', () => {
-        icon.style.textShadow = '0 0 10px currentColor';
-        icon.style.transform = 'scale(1.2) rotate(5deg)';
-      });
-      
-      icon.addEventListener('mouseleave', () => {
-        icon.style.textShadow = '';
-        icon.style.transform = '';
-      });
-    });
-  }
-  
-  function initTextAnimations() {
-    const headings = document.querySelectorAll('h2');
-    const paragraphs = document.querySelectorAll('p');
-    paragraphs.forEach((p, index) => {
-      p.style.transition = 'all 0.5s ease';
-      p.style.transitionDelay = `${index * 0.1}s`;
-      p.addEventListener('mouseenter', () => {
-        p.style.transform = 'translateX(5px)';
-        p.style.color = '#a855f7';
-      });
-      
-      p.addEventListener('mouseleave', () => {
-        p.style.transform = '';
-        p.style.color = '';
-      });
-    });
-  }
+    function initSkillIconEffects() {
+        const skillIcons = document.querySelectorAll('.skills-grid i');
 
-  function initializeMusic() {
+        skillIcons.forEach((icon, index) => {
+            icon.style.animationName = 'subtlePulse';
+            icon.style.animationDuration = '3s';
+            icon.style.animationIterationCount = 'infinite';
+            icon.style.animationDelay = `${index * 0.3}s`;
+            icon.addEventListener('mouseenter', () => {
+                icon.style.textShadow = '0 0 10px currentColor';
+                icon.style.transform = 'scale(1.2) rotate(5deg)';
+            });
+
+            icon.addEventListener('mouseleave', () => {
+                icon.style.textShadow = '';
+                icon.style.transform = '';
+            });
+        });
+    }
+
+    function initTextAnimations() {
+        const headings = document.querySelectorAll('h2');
+        const paragraphs = document.querySelectorAll('p');
+        paragraphs.forEach((p, index) => {
+            p.style.transition = 'all 0.5s ease';
+            p.style.transitionDelay = `${index * 0.1}s`;
+            p.addEventListener('mouseenter', () => {
+                p.style.transform = 'translateX(5px)';
+                p.style.color = '#a855f7';
+            });
+
+            p.addEventListener('mouseleave', () => {
+                p.style.transform = '';
+                p.style.color = '';
+            });
+        });
+    }
+
+    function initializeMusic() {
         const music = document.getElementById('background-music');
         const toggleBtn = document.getElementById('toggle-music');
         const musicStatus = document.getElementById('music-status');
@@ -481,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         function updateMusicUI(isPlaying) {
-        if (isPlaying) {
+            if (isPlaying) {
                 musicStatus.textContent = 'playing';
                 musicVisualizer.classList.add('playing');
                 musicIcon.classList.add('hidden');
@@ -730,15 +752,15 @@ function initPlayground() {
     window.addEventListener('resize', () => {
         resizeCanvas();
     });
-canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-    mouseVelX = mouseX - lastMouseX;
-    mouseVelY = mouseY - lastMouseY;
-});
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        mouseVelX = mouseX - lastMouseX;
+        mouseVelY = mouseY - lastMouseY;
+    });
     canvas.addEventListener('mouseleave', () => {
         mouseX = -1000;
         mouseY = -1000;
@@ -817,10 +839,10 @@ function resizeCanvas() {
 const effectSettings = {
     noise: {
         cellSize: {
-            min: 4,
-            max: 16,
+            min: 1,
+            max: 30,
             value: 8,
-            step: 1,
+            step: 0.5,
             label: 'cell size'
         },
         fadeSpeed: {
@@ -986,45 +1008,57 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function noiseEffect() {
+    window.currentEffect = 'noise';
+
     const time = Date.now() * 0.001;
     const settings = effectSettings.noise;
     ctx.fillStyle = `rgba(0, 0, 0, ${settings.fadeSpeed.value})`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     const cellSize = settings.cellSize.value;
     const skipFactor = 2;
     const cols = Math.ceil(canvas.width / cellSize);
     const rows = Math.ceil(canvas.height / cellSize);
-    
+
     const velocityInfluence = (Math.abs(mouseVelX) + Math.abs(mouseVelY)) * 0.1;
-    
+
     for (let i = 0; i < cols; i += skipFactor) {
         for (let j = 0; j < rows; j += skipFactor) {
             const x = i * cellSize;
             const y = j * cellSize;
-            
+
             const dx = x - mouseX;
             const dy = y - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            
+
             const noise = Math.sin(x * 0.02 + time + velocityInfluence) +
                 Math.cos(y * 0.02 - time + velocityInfluence);
             const mouseInfluence = Math.max(0, 1 - distance / 200) * Math.sin(time * 5) * 20;
-            
+
             const value = (noise + mouseInfluence + velocityInfluence) * 0.5;
             const hue = (value * 50 + time * settings.colorSpeed.value) % 360;
-            
+
             ctx.fillStyle = `hsla(${hue}, 70%, 50%, 0.5)`;
             ctx.fillRect(x, y, cellSize * skipFactor - 1, cellSize * skipFactor - 1);
         }
     }
-    
+
     if (currentEffect === 'noise' && window.playgroundActive) {
         animationId = requestAnimationFrame(noiseEffect);
     }
 }
 
 function flowEffect() {
+    window.currentEffect = 'flow';
+
+    if (!window.playgroundActive || document.visibilityState === 'hidden') {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        return;
+    }
+
     const time = Date.now() * 0.001;
     const settings = effectSettings.flow;
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
@@ -1042,7 +1076,7 @@ function flowEffect() {
             uniqueOffset: Math.random() * Math.PI * 2
         }));
     }
-    
+
     const forceRadius = settings.forceRadius.value;
     const maxForce = settings.particleSpeed.value * 10;
     const updateRate = 2;
@@ -1053,32 +1087,32 @@ function flowEffect() {
         const dx = mouseX - particle.x;
         const dy = mouseY - particle.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (dist < forceRadius) {
             const force = (1 - dist / forceRadius) * maxForce;
             particle.vx += (dx / dist) * force + mouseVelX * 0.1;
             particle.vy += (dy / dist) * force + mouseVelY * 0.1;
         }
-        
+
         const randomJitter = (Math.random() - 0.5) * 0.2;
-        
-        const angle = Math.sin(particle.x * 0.01 + time + particle.uniqueOffset) * 
-                     Math.cos(particle.y * 0.01 + particle.uniqueOffset);
-                     
+
+        const angle = Math.sin(particle.x * 0.01 + time + particle.uniqueOffset) *
+            Math.cos(particle.y * 0.01 + particle.uniqueOffset);
+
         particle.vx += Math.cos(angle) * settings.particleSpeed.value + randomJitter;
         particle.vy += Math.sin(angle) * settings.particleSpeed.value + randomJitter;
 
         particle.vx *= 0.95;
         particle.vy *= 0.95;
-        
+
         particle.x += particle.vx;
         particle.y += particle.vy;
-        
+
         if (particle.x < 0) particle.x = canvas.width;
         if (particle.x > canvas.width) particle.x = 0;
         if (particle.y < 0) particle.y = canvas.height;
         if (particle.y > canvas.height) particle.y = 0;
-        
+
         const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
         const hue = (time * 50 + speed * 50) % 360;
         ctx.fillStyle = `hsla(${hue}, 70%, 50%, ${0.3 + speed * 0.1})`;
@@ -1086,13 +1120,23 @@ function flowEffect() {
         ctx.arc(particle.x, particle.y, 1 + speed * 0.5, 0, Math.PI * 2);
         ctx.fill();
     }
-    
+
     if (currentEffect === 'flow' && window.playgroundActive) {
         animationId = requestAnimationFrame(flowEffect);
     }
 }
 
 function nebulaEffect() {
+    window.currentEffect = 'nebula';
+
+    if (!window.playgroundActive || document.visibilityState === 'hidden') {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        return;
+    }
+
     const time = Date.now() * 0.001;
     const settings = effectSettings.nebula;
     const maxParticles = settings.particleCount.value;
@@ -1102,7 +1146,7 @@ function nebulaEffect() {
     }
 
     const cloudSizeChanged = this.lastCloudSize !== settings.cloudSize.value;
-    
+
     if (!this.nebulaParticles || this.nebulaParticles.length !== maxParticles || cloudSizeChanged) {
         this.nebulaParticles = Array.from({
             length: maxParticles
@@ -1113,7 +1157,7 @@ function nebulaEffect() {
             hue: Math.random() * 60 + 240,
             offset: Math.random() * Math.PI * 2
         }));
-        
+
         this.lastCloudSize = settings.cloudSize.value;
     }
 
@@ -1152,7 +1196,7 @@ function nebulaEffect() {
         grd.addColorStop(1, 'transparent');
 
         ctx.fillStyle = grd;
-                ctx.beginPath();
+        ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fill();
     }
@@ -1164,6 +1208,15 @@ function nebulaEffect() {
 
 function espEffect() {
     window.currentEffect = 'esp';
+
+    if (!window.playgroundActive || document.visibilityState === 'hidden') {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        return;
+    }
+
     const settings = effectSettings.esp;
     let frameCount = 0;
     let lastFrameTime = performance.now();
@@ -1244,3 +1297,16 @@ function espEffect() {
     }
     animate();
 }
+
+document.addEventListener('visibilitychange', () => {
+    const isVisible = document.visibilityState === 'visible';
+
+    if (!isVisible && window.playgroundActive && animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+    } else if (isVisible && window.playgroundActive && currentEffect) {
+        if (window[currentEffect + 'Effect']) {
+            window[currentEffect + 'Effect']();
+        }
+    }
+});
