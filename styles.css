@@ -598,3 +598,23 @@ a:active {
     opacity: 0.5;
     pointer-events: none;
 }
+
+.social-btn {
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover svg {
+    animation: socialPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes socialPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
