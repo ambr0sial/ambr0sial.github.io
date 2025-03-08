@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let cursorY = 0;
     let followerX = 0;
     let followerY = 0;
+    let mouseIsDown = false;
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -769,6 +770,19 @@ function initPlayground() {
         lastMouseX = -1000;
         lastMouseY = -1000;
     });
+    
+    canvas.addEventListener('mousedown', () => {
+        mouseIsDown = true;
+    });
+    
+    canvas.addEventListener('mouseup', () => {
+        mouseIsDown = false;
+    });
+    
+    canvas.addEventListener('mouseout', () => {
+        mouseIsDown = false;
+    });
+    
     const placeholder = document.getElementById('playground-placeholder');
     if (placeholder) {
         placeholder.classList.remove('hidden');
@@ -904,6 +918,43 @@ const effectSettings = {
             value: 0.5,
             step: 0.1,
             label: 'movement speed'
+        }
+    },
+    magnetic: {
+        particleCount: {
+            min: 50,
+            max: 500,
+            value: 200,
+            step: 10,
+            label: 'particle count'
+        },
+        attractionForce: {
+            min: 0.1,
+            max: 2,
+            value: 0.5,
+            step: 0.1,
+            label: 'attraction force'
+        },
+        repulsionForce: {
+            min: 1,
+            max: 10,
+            value: 5,
+            step: 0.5,
+            label: 'repulsion force'
+        },
+        repulsionRange: {
+            min: 50,
+            max: 300,
+            value: 150,
+            step: 10,
+            label: 'repulsion range'
+        },
+        particleSize: {
+            min: 1,
+            max: 8,
+            value: 3,
+            step: 0.5,
+            label: 'particle size'
         }
     },
     esp: {
@@ -1203,6 +1254,132 @@ function nebulaEffect() {
 
     if (currentEffect === 'nebula' && window.playgroundActive) {
         animationId = requestAnimationFrame(nebulaEffect);
+    }
+}
+
+function magneticEffect() {
+    window.currentEffect = 'magnetic';
+    
+    if (!window.playgroundActive || document.visibilityState === 'hidden') {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+        return;
+    }
+    
+    const time = Date.now() * 0.001;
+    const settings = effectSettings.magnetic;
+    
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    if (!this.magneticParticles || this.magneticParticles.length !== settings.particleCount.value) {
+        this.magneticParticles = Array.from({ length: settings.particleCount.value }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 2,
+            vy: (Math.random() - 0.5) * 2,
+            size: Math.random() * 2 + settings.particleSize.value,
+            color: Math.random() * 360,
+            pulsePhase: Math.random() * Math.PI * 2
+        }));
+    }
+    
+    const isClicking = mouseIsDown || false;
+    
+    this.magneticParticles.forEach(particle => {
+        const dx = mouseX - particle.x;
+        const dy = mouseY - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (isClicking && distance < settings.repulsionRange.value) {
+            const repulsionForce = settings.repulsionForce.value * (1 - distance / settings.repulsionRange.value);
+            particle.vx -= dx / distance * repulsionForce;
+            particle.vy -= dy / distance * repulsionForce;
+            
+            particle.vx += (Math.random() - 0.5) * 0.5;
+            particle.vy += (Math.random() - 0.5) * 0.5;
+        } else if (distance > 10) {
+            const attractionForce = settings.attractionForce.value * 0.1;
+            particle.vx += dx / distance * attractionForce;
+            particle.vy += dy / distance * attractionForce;
+        }
+        
+        particle.vx *= 0.95;
+        particle.vy *= 0.95;
+        
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+        
+        const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
+        const hue = (particle.color + time * 20) % 360;
+        const saturation = 80 + Math.sin(time + particle.pulsePhase) * 20;
+        const luminance = 40 + Math.sin(time * 0.5 + particle.pulsePhase) * 10;
+        const alpha = Math.min(0.8, 0.3 + speed * 0.5);
+        
+        ctx.fillStyle = `hsla(${hue}, ${saturation}%, ${luminance}%, ${alpha})`;
+        ctx.beginPath();
+        
+        if (particle.size > settings.particleSize.value + 1) {
+            const outerRadius = particle.size;
+            const innerRadius = particle.size * 0.4;
+            const spikes = 5;
+            let rot = (time + particle.pulsePhase) * 0.5;
+            let x = particle.x;
+            let y = particle.y;
+            let step = Math.PI / spikes;
+            
+            for (let i = 0; i < spikes * 2; i++) {
+                let radius = i % 2 === 0 ? outerRadius : innerRadius;
+                let x2 = x + Math.cos(rot) * radius;
+                let y2 = y + Math.sin(rot) * radius;
+                if (i === 0) {
+                    ctx.moveTo(x2, y2);
+                } else {
+                    ctx.lineTo(x2, y2);
+                }
+                rot += step;
+            }
+            ctx.closePath();
+            ctx.fill();
+        } else {
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        if (isClicking && distance < settings.repulsionRange.value) {
+            const glowSize = particle.size * 2;
+            const gradient = ctx.createRadialGradient(
+                particle.x, particle.y, 0,
+                particle.x, particle.y, glowSize
+            );
+            gradient.addColorStop(0, `hsla(${hue}, ${saturation}%, ${luminance}%, 0.5)`);
+            gradient.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, glowSize, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    });
+    
+    if (isClicking) {
+        const pulseSize = settings.repulsionRange.value * (0.8 + Math.sin(time * 5) * 0.2);
+        ctx.strokeStyle = `rgba(168, 85, 247, ${0.3 + Math.sin(time * 10) * 0.1})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(mouseX, mouseY, pulseSize, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+    
+    if (currentEffect === 'magnetic' && window.playgroundActive) {
+        animationId = requestAnimationFrame(magneticEffect);
     }
 }
 

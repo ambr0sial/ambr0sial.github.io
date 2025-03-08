@@ -618,3 +618,31 @@ a:active {
         transform: scale(1);
     }
 }
+
+#effect-settings {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-dark) rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+#effect-settings:hover {
+    scrollbar-color: var(--primary) rgba(0, 0, 0, 0.3);
+}
+
+#effect-settings::-webkit-scrollbar {
+    width: 4px;
+}
+
+#effect-settings::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#effect-settings::-webkit-scrollbar-thumb {
+    background: var(--primary-dark);
+    border-radius: 4px;
+}
+
+#effect-settings::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
