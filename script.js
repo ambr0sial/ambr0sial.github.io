@@ -1286,7 +1286,7 @@ function magneticEffect() {
         }));
     }
     
-    const isClicking = mouseIsDown || false;
+    const isClicking = (typeof mouseIsDown !== 'undefined') ? mouseIsDown : false;
     
     this.magneticParticles.forEach(particle => {
         const dx = mouseX - particle.x;
