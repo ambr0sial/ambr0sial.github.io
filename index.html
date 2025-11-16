@@ -4,7 +4,7 @@
     <title>ambrosial.space</title>
     <style>
         body {
-            background-color: #111;
+            background-color: #222;
             color: #aaa;
             font-family: monospace;
             text-align: left;
@@ -20,9 +20,62 @@
         a:hover {
             text-decoration: underline;
         }
+        
+        .discord-profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .discord-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #ff66aa;
+            margin: 0 auto 15px;
+        }
+        .discord-username {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .discord-username .username {
+            color: #888;
+            font-style: italic;
+            font-weight: normal;
+        }
+        .discord-status {
+            color: #888;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .status-online {
+            background-color: #43b581;
+        }
+        .status-idle {
+            background-color: #faa61a;
+        }
+        .status-dnd {
+            background-color: #f04747;
+        }
+        .status-offline {
+            background-color: #747f8d;
+        }
     </style>
 </head>
 <body>
+    <div class="discord-profile">
+        <img id="discord-avatar" class="discord-avatar">
+        <div id="discord-username" class="discord-username"></div>
+        <div id="discord-status" class="discord-status"></div>
+    </div>
+
     <p>hi, i'm ambrose, also known as ambrosial!</p>
     <p>i'm an 18yo french trans girl who loves exploring all kinds of odd corners of tech and science</p>
     <p>you'll usually find me digging into astronomy, coding and malware development/analysis</p>
@@ -38,5 +91,31 @@
     <p>i'll add them later lmao</p>
     <br>
     <p>also check out my <a href="https://blog.ambrosial.space" target="_blank">blog</a>!!</p>
+
+    <script>
+        fetch('https://api.lanyard.rest/v1/users/475697969216356353')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const user = data.data.discord_user;
+                    const activities = data.data.activities;
+                    
+                    document.getElementById('discord-avatar').src = 
+                        `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256`;
+
+                    const status = data.data.discord_status;
+                    const statusClass = `status-${status}`;
+                    
+                    const displayName = user.global_name || user.username;
+                    document.getElementById('discord-username').innerHTML = 
+                        `<span class="status-indicator ${statusClass}"></span>${displayName} <span class="username">(${user.username})</span>`;
+                    
+                    const customStatus = activities.find(a => a.type === 4);
+                    if (customStatus) {
+                        document.getElementById('discord-status').textContent = customStatus.state;
+                    }
+                }
+            });
+    </script>
 </body>
 </html>
